@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/VISMA.TestTask.Solution/.vs/VISMA.TestTask.Solution
+/VISMA.TestTask.Solution/VISMA.TestTask.Core/bin/Debug
+/VISMA.TestTask.Solution/VISMA.TestTask.Core/obj/Debug
+/VISMA.TestTask.Solution/VISMA.TestTask.Data/bin/Debug
+/VISMA.TestTask.Solution/VISMA.TestTask.Data/obj/Debug
+/VISMA.TestTask.Solution/VISMA.TestTask.Web/bin
+/VISMA.TestTask.Solution/VISMA.TestTask.Web/obj/Debug
