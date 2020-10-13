@@ -6,7 +6,7 @@ using log4net;
 
 namespace VISMA.TestTask.Core.Logger
 {
-    public class LoggingService
+    public static class LoggingService
     {
         public static ICollection Configure()
         {
