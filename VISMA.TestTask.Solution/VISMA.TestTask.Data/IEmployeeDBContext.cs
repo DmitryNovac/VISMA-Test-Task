@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using VISMA.TestTask.Data.Models;
 
 namespace VISMA.TestTask.Data
 {
-    public interface IEmployeeDBContext
+    public interface IEmployeeDbContext : IDisposable
     {
-        DbSet<Employer> Employee { get; set; }
+        DbSet<Employee> Employee { get; set; }
 
         int SaveChanges();
     }

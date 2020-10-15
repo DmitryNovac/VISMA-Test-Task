@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
 using VISMA.TestTask.Data.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace VISMA.TestTask.Data
 {
-    public class EmployeeDBContext : DbContext, IEmployeeDBContext
+    public class EmployeeDbContext : DbContext
     {
-        public EmployeeDBContext(DbContextOptions<EmployeeDBContext> options)
+        public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options)
             : base(options)
         { }
 
-        public DbSet<Employer> Employee { get; set; }
+        public DbSet<Employee> Employee { get; set; }
     }
 }

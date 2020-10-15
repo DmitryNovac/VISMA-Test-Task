@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using VISMA.TestTask.Core.Logger;
+using VISMA.TestTask.Data;
+using VISMA.TestTask.Web.Ninject;
 
 namespace VISMA.TestTask.Web
 {
@@ -19,6 +17,7 @@ namespace VISMA.TestTask.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             LoggingService.Configure();
+            FakeDataCollection.Load(NinjectCore.Get<IEmployeeDbContext>());
         }
     }
 }
