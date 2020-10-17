@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
+using VISMA.TestTask.Core.Data;
 using VISMA.TestTask.Data.Models;
 
 namespace VISMA.TestTask.Core.Services
 {
     public interface IEmployeeService : IDisposable
     {
-        IEnumerable<Employee> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder);
+        DataGridResult<Employee> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder);
         bool AddEmployee(Employee employee, out string message);
     }
 }

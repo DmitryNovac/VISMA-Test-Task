@@ -28,18 +28,18 @@ namespace VISMA.TestTask.Web.Controllers
             };
         }
 
-        protected bool ValidateRequest(out List<string> erroMessages)
+        protected bool ValidateRequest(out List<string> errorMessages)
         {
-            erroMessages = null;
+            errorMessages = null;
 
             if (ModelState.IsValid)
                 return true;
 
-            erroMessages = new List<string>();
+            errorMessages = new List<string>();
 
             foreach (var key in ModelState.Keys)
             {
-                erroMessages.AddRange(ModelState[key].Errors
+                errorMessages.AddRange(ModelState[key].Errors
                     .Select(o => o.ErrorMessage)
                     .ToList());
             }

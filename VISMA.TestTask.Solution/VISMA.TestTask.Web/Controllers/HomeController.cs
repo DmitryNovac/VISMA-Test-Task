@@ -6,7 +6,7 @@ namespace VISMA.TestTask.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("List", "Employee");
         }
     }
 }

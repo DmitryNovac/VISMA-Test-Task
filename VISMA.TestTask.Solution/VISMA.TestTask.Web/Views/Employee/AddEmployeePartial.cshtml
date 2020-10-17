@@ -1,0 +1,45 @@
+﻿<div class="modal fade" id="employeeModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">New employee</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body list-group">
+                <div v-show="alert.showError">
+                    <ul>
+                        <li v-for="message in alert.errorMessage" class="text-danger card-text"><label>{{ message }}</label></li>
+                    </ul>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <label class="col-sm-5">First name <b class="text-danger">*</b></label>
+                        <input class="col-sm-5" v-model="newEmployee.firstName" type="text" />
+                    </li>
+                    <li class="list-group-item">
+                        <label class="col-sm-5">Last name <b class="text-danger">*</b></label>
+                        <input class="col-sm-5" v-model="newEmployee.lastName" />
+                    </li>
+                    <li class="list-group-item">
+                        <label class="col-sm-5">Social security nr. <b class="text-danger">*</b></label>
+                        <input class="col-sm-5" v-model="newEmployee.socialSecurityNumber" />
+                    </li>
+                    <li class="list-group-item">
+                        <label class="col-sm-5">Phone number</label>
+                        <input class="col-sm-5" v-model="newEmployee.phoneNumber" />
+                    </li>
+                </ul>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button @*v-bind:class="disabled: isValid"*@ v-on:click="addEmployee" type="button" class="btn btn-info">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

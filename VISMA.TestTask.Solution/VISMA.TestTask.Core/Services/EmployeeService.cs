@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using VISMA.TestTask.Core.Data;
 using VISMA.TestTask.Core.Extensions;
 using VISMA.TestTask.Core.Helpers;
 using VISMA.TestTask.Core.Logger;
@@ -25,7 +25,7 @@ namespace VISMA.TestTask.Core.Services
             _configManager = configManager;
         }
 
-        public IEnumerable<Employee> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder)
+        public DataGridResult<Employee> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder)
         {
             if (pageNumber < 0)
                 throw new ArgumentException($"Parameter '{nameof(pageNumber)}' cannot be negative value!");
@@ -36,15 +36,20 @@ namespace VISMA.TestTask.Core.Services
             if (sortOrder == SortOrder.Unspecified)
                 sortOrder = SortOrder.Ascending;
 
-            var result = default(List<Employee>);
+            var result = default(DataGridResult<Employee>);
 
             try
             {
-                result = _employeeDbContext.Employee
-                    .OrderBy($"{orderValue} {sortOrder.ToString()}")
-                    .Skip(_configManager.EmployeePageSize * pageNumber)
-                    .Take(_configManager.EmployeePageSize)
-                    .ToList();
+                result = new DataGridResult<Employee>(
+                    data: _employeeDbContext.Employee
+                        .OrderBy($"{orderValue} {sortOrder.ToString()}")
+                        .Skip(_configManager.EmployeePageSize * pageNumber)
+                        .Take(_configManager.EmployeePageSize)
+                        .ToList(),
+                    totalRowCount: _employeeDbContext.Employee.Count(),
+                    pageNumber: pageNumber,
+                    pageSize: _configManager.EmployeePageSize,
+                    wrapper: EmployeeDataWrapper);
             }
             catch (Exception e)
             {
@@ -53,6 +58,19 @@ namespace VISMA.TestTask.Core.Services
             }
 
             return result;
+        }
+
+        private object EmployeeDataWrapper(Employee item, int rowNumber)
+        {
+            return new
+            {
+                RowId = rowNumber,
+                FirstName = item.FirstName,
+                LastName = item.LastName,
+                SocialSecurityNumber = item.SocialSecurityNumber,
+                PhoneNumber = item.PhoneNumber,
+                CreatedOn = item.CreatedOn.ToLocalTime().ToString("yyyy-MM-dd HH:mm"),
+            };
         }
 
         public bool AddEmployee(Employee employee, out string message)

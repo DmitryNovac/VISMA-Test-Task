@@ -4,7 +4,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using VISMA.TestTask.Core.Data;
 using VISMA.TestTask.Core.Services;
+using VISMA.TestTask.Data.Models;
 using VISMA.TestTask.Web.Data;
 using VISMA.TestTask.Web.Ninject;
 
@@ -34,14 +36,14 @@ namespace VISMA.TestTask.Web.Controllers
             if (pageNumber < 0)
                 throw new ArgumentException($"Parameter '{nameof(pageNumber)}' cannot be negative value!");
 
-            var result = default(List<object>);
+            var result = default(DataGridResult<Employee>);
 
             using (var service = NinjectCore.Get<IEmployeeService>())
             {
-                result = service.GetEmployee(pageNumber, orderValue, sortOrder).Cast<object>().ToList();
+                result = service.GetEmployee(pageNumber, orderValue, sortOrder);
             }
 
-            return Json(new DataHttpResponse<List<object>>(result));
+            return Json(new DataHttpResponse<DataGridResult<Employee>>(result));
         }
 
         /// <summary>

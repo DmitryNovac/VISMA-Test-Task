@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VISMA.TestTask.Core.Properties {
-    using System;
-    
-    
+namespace VISMA.TestTask.Core.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -61,7 +61,8 @@ namespace VISMA.TestTask.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Person with social security number &apos;{0}&apos; already exists! Please, correct person data or contact with your manager!.
+        ///   Looks up a localized string similar to Person with social security number &apos;{0}&apos; already exists
+        ///Please, correct person data or contact with your manager.
         /// </summary>
         internal static string PersonAlreadyExists {
             get {

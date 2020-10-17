@@ -29,7 +29,7 @@ namespace VISMA.TestTask.Data
                     FirstName = "Anakin",
                     LastName =  "Skywalker",
                     SocialSecurityNumber = "AS00012022",
-                    PhoneNumber = "+(111) 123 456 789",
+                    PhoneNumber = "+(111)123456789",
                     CreatedOn = new DateTime(2018, 8, 21, 9, 54, 19),
                 }
             };

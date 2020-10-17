@@ -22,7 +22,8 @@ namespace VISMA.TestTask.Web.Data
         public string SocialSecurityNumber { get; set; }
 
         [DisplayName("Phone Number")]
-        [RegularExpression("^[+]?[0-9 ]{6,12}$")]
+        [RegularExpression("^[+]?([(][0-9 ]{1,5}[)])?[0-9 ]{3,}$", ErrorMessage = "Invalid Phone number")]
+        [StringLength(maximumLength: 25)]
         public string PhoneNumber { get; set; }
 
         public Employee ToEntity()

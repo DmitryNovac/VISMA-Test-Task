@@ -3,6 +3,89 @@
     ViewBag.Title = "Employee";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Employee</h2>
+<br/>
+<div id="VueModel">
+    <div v-cloak>
+        <div v-show="alert.showError" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong> {{alert.errorMessage}}
+            <button v-on:click="alert.showError = false" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div v-show="alert.showSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{alert.successMessage}}
+            <button v-on:click="alert.showSuccess = false" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="col-lg-12">
+            <button v-on:click="clearEmployeeModel" class="btn btn-light" type="button" data-toggle="modal" data-target="#employeeModal"><span class="fa fa-plus" style="padding-right: 5px"></span> Add employee</button>
+        </div>
+        @*<h2 style="color: red; font-weight: bold;">Page Nr: {{sortOrder}}  Total: {{sortColumn}}</h2>*@
+        <div>
+            <table class="table table-hover table-striped col-lg-12">
+                <thead>
+                    <tr>
+                        <th>Nr.</th>
+                        <th class="col-auto" v-on:click="sort('FirstName')">
+                            First name
+                            <span v-show="sortColumn == 'FirstName' && sortOrder == 1" class="fa fa-sort-alpha-asc pull-right"></span>
+                            <span v-show="sortColumn == 'FirstName' && sortOrder == 0" class="fa fa-sort-alpha-desc pull-right"></span>
+                        </th>
+                        <th class="col-auto" v-on:click="sort('LastName')">
+                            Last name
+                            <span v-show="sortColumn == 'LastName' && sortOrder == 1" class="fa fa-sort-alpha-asc pull-right"></span>
+                            <span v-show="sortColumn == 'LastName' && sortOrder == 0" class="fa fa-sort-alpha-desc pull-right"></span>
+                        </th>
+                        <th class="col-auto" v-on:click="sort('SocialSecurityNumber')">
+                            Social security number
+                            <span v-show="sortColumn == 'SocialSecurityNumber' && sortOrder == 1" class="fa fa-sort-alpha-asc pull-right"></span>
+                            <span v-show="sortColumn == 'SocialSecurityNumber' && sortOrder == 0" class="fa fa-sort-alpha-desc pull-right"></span>
+                        </th>
+                        <th class="col-auto" v-on:click="sort('PhoneNumber')">
+                            Phone number
+                            <span v-show="sortColumn == 'PhoneNumber' && sortOrder == 1" class="fa fa-sort-alpha-asc pull-right"></span>
+                            <span v-show="sortColumn == 'PhoneNumber' && sortOrder == 0" class="fa fa-sort-alpha-desc pull-right"></span>
+                        </th>
+                        <th class="col-auto" v-on:click="sort('CreatedOn')">
+                            Created on
+                            <span v-show="sortColumn == 'CreatedOn' && sortOrder == 1" class="fa fa-sort-alpha-asc pull-right"></span>
+                            <span v-show="sortColumn == 'CreatedOn' && sortOrder == 0" class="fa fa-sort-alpha-desc pull-right"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="person in employee">
+                        <td class="align-content-end">{{ person.RowId }}</td>
+                        <td>{{ person.FirstName }}</td>
+                        <td>{{ person.LastName }}</td>
+                        <td>{{ person.SocialSecurityNumber }}</td>
+                        <td>{{ person.PhoneNumber }}</td>
+                        <td>{{ person.CreatedOn }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+            <ul v-show="pageTotal > 1" class="pagination pull-right">
+                <li v-bind:class="{disabled: pageNumber <= 1}"><a v-on:click="pageLeft"><span class="fa fa-chevron-left"></span></a></li>
+                <li v-bind:class="{active: index == pageNumber}" v-for="index in pageTotal" :key="index"><a v-on:click="setPage(index)">{{ index }}</a></li>
+                <li v-bind:class="{disabled: pageNumber == pageTotal}"><a v-on:click="pageRight"><span class="fa fa-chevron-right"></span></a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("AddEmployeePartial")
+
+@section scripts {
+    <script>
+        const endpoints = {
+            getEmployeeListUrl: "@Url.Action("GetEmployeeList", "Employee", null, Request.Url.Scheme, null)",
+            addNewEmployerUrl: "@Url.Action("AddNewEmployer", "Employee", null, Request.Url.Scheme, null)"
+        };
+    </script>
+    <script src="~/Scripts/EmployeeView/EmployeeViewScript.js?@DateTime.Now"></script>
+}
 

@@ -118,7 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PersonAlreadyExists" xml:space="preserve">
-    <value>Person with social security number '{0}' already exists! Please, correct person data or contact with your manager!</value>
+    <value>Person with social security number '{0}' already exists
+Please, correct person data or contact with your manager</value>
     <comment>{0} - Social security number</comment>
   </data>
 </root>
