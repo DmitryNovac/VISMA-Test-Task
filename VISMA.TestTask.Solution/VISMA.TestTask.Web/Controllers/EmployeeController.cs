@@ -42,11 +42,11 @@ namespace VISMA.TestTask.Web.Controllers
             if (pageNumber < 0)
                 throw new ArgumentException($"Parameter '{nameof(pageNumber)}' cannot be negative value!");
 
-            var result = default(DataGridResult<Employee>);
+            var result = default(DataGridResult<EmployeeResult>);
 
             result = _employeeService.GetEmployee(pageNumber, orderValue, sortOrder);
 
-            return Json(new DataHttpResponse<DataGridResult<Employee>>(result));
+            return Json(new DataHttpResponse<DataGridResult<EmployeeResult>>(result));
         }
 
         /// <summary>

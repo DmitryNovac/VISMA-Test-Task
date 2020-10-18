@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataGridResult.cs" />
+    <Compile Include="Data\EmployeeResult.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />
     <Compile Include="Interfaces\IConfigManager.cs" />

@@ -7,7 +7,7 @@ namespace VISMA.TestTask.Core.Services
 {
     public interface IEmployeeService : IDisposable
     {
-        DataGridResult<Employee> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder);
+        DataGridResult<EmployeeResult> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder);
         bool AddEmployee(Employee employee, out string message);
     }
 }

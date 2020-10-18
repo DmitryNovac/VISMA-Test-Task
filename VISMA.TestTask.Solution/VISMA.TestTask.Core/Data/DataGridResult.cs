@@ -7,12 +7,12 @@ namespace VISMA.TestTask.Core.Data
 {
     public class DataGridResult<T>
     {
-        public delegate object WrapDelegate(T item, int rowNumber);
+        public delegate T WrapDelegate(object item, int rowNumber);
 
-        public List<object> Collection { get; private set; }
+        public List<T> Collection { get; private set; }
         public int TotalPageCount { get; private set; }
 
-        public DataGridResult(IEnumerable<T> data, int totalRowCount, int pageNumber, int pageSize, WrapDelegate wrapper)
+        public DataGridResult(IEnumerable<object> data, int totalRowCount, int pageNumber, int pageSize, WrapDelegate wrapper)
         {
             TotalPageCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(totalRowCount) / pageSize));
             Collection = data.Select(o => wrapper(o, pageSize * pageNumber + data.IndexOf(o) + 1)).ToList();

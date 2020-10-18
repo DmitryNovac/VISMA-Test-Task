@@ -18,9 +18,6 @@ namespace VISMA.TestTask.Core.Extensions
 
         private static string Capitalize(string str)
         {
-            if (string.IsNullOrWhiteSpace(str))
-                throw new ArgumentNullException(nameof(str));
-
             if (str.Contains('-'))
             {
                 return string.Join("-", str.Split('-')

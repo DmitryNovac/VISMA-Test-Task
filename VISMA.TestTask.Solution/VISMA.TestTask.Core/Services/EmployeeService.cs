@@ -25,7 +25,7 @@ namespace VISMA.TestTask.Core.Services
             _configManager = configManager;
         }
 
-        public DataGridResult<Employee> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder)
+        public DataGridResult<EmployeeResult> GetEmployee(int pageNumber, string orderValue, SortOrder sortOrder)
         {
             if (pageNumber < 0)
                 throw new ArgumentException($"Parameter '{nameof(pageNumber)}' cannot be negative value!");
@@ -36,11 +36,11 @@ namespace VISMA.TestTask.Core.Services
             if (sortOrder == SortOrder.Unspecified)
                 sortOrder = SortOrder.Ascending;
 
-            var result = default(DataGridResult<Employee>);
+            var result = default(DataGridResult<EmployeeResult>);
 
             try
             {
-                result = new DataGridResult<Employee>(
+                result = new DataGridResult<EmployeeResult>(
                     data: _employeeDbContext.Employee
                         .OrderBy($"{orderValue} {sortOrder.ToString()}")
                         .Skip(_configManager.EmployeePageSize * pageNumber)
@@ -60,19 +60,6 @@ namespace VISMA.TestTask.Core.Services
             return result;
         }
 
-        private object EmployeeDataWrapper(Employee item, int rowNumber)
-        {
-            return new
-            {
-                RowId = rowNumber,
-                FirstName = item.FirstName,
-                LastName = item.LastName,
-                SocialSecurityNumber = item.SocialSecurityNumber,
-                PhoneNumber = item.PhoneNumber,
-                CreatedOn = item.CreatedOn.ToLocalTime().ToString("yyyy-MM-dd HH:mm"),
-            };
-        }
-
         public bool AddEmployee(Employee employee, out string message)
         {
             if (employee == null)
@@ -81,17 +68,17 @@ namespace VISMA.TestTask.Core.Services
             message = null;
 
             employee.SocialSecurityNumber = employee.SocialSecurityNumber.ToUpper();
-            
+
             try
             {
-               var existingperson =  _employeeDbContext.Employee
-                    .FirstOrDefault(o => o.SocialSecurityNumber == employee.SocialSecurityNumber);
+                var existingPerson = _employeeDbContext.Employee
+                     .FirstOrDefault(o => o.SocialSecurityNumber == employee.SocialSecurityNumber);
 
-               if (existingperson != null)
-               {
-                   message = string.Format(ServerResponseMessages.PersonAlreadyExists, employee.SocialSecurityNumber);
-                   return false;
-               }
+                if (existingPerson != null)
+                {
+                    message = string.Format(ServerResponseMessages.PersonAlreadyExists, employee.SocialSecurityNumber);
+                    return false;
+                }
             }
             catch (Exception e)
             {
@@ -103,7 +90,7 @@ namespace VISMA.TestTask.Core.Services
             employee.PhoneNumber = employee.PhoneNumber?.Replace(" ", string.Empty);
             employee.LastName = employee.LastName.ToCapitalize();
             employee.FirstName = employee.FirstName.ToCapitalize();
-            
+
 
             try
             {
@@ -122,6 +109,19 @@ namespace VISMA.TestTask.Core.Services
         public void Dispose()
         {
             _employeeDbContext.Dispose();
+        }
+
+        private EmployeeResult EmployeeDataWrapper(object item, int rowNumber)
+        {
+            return new EmployeeResult
+            {
+                RowId = rowNumber,
+                FirstName = (item as Employee).FirstName,
+                LastName = (item as Employee).LastName,
+                SocialSecurityNumber = (item as Employee).SocialSecurityNumber,
+                PhoneNumber = (item as Employee).PhoneNumber,
+                CreatedOn = (item as Employee).CreatedOn.ToLocalTime().ToString("yyyy-MM-dd HH:mm"),
+            };
         }
     }
 }
