@@ -1,19 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using VISMA.TestTask.Core.Data;
+using VISMA.TestTask.Core.Logger;
 using VISMA.TestTask.Core.Services;
 using VISMA.TestTask.Data.Models;
 using VISMA.TestTask.Web.Data;
-using VISMA.TestTask.Web.Ninject;
 
 namespace VISMA.TestTask.Web.Controllers
 {
     public class EmployeeController : BaseController
     {
+        private IEmployeeService _employeeService;
+
+        public EmployeeController(IEmployeeService employeeService, ILogger logger)
+            : base(logger)
+        {
+            _employeeService = employeeService;
+        }
+
         /// <summary>
         /// Gets list view
         /// </summary>
@@ -38,10 +44,7 @@ namespace VISMA.TestTask.Web.Controllers
 
             var result = default(DataGridResult<Employee>);
 
-            using (var service = NinjectCore.Get<IEmployeeService>())
-            {
-                result = service.GetEmployee(pageNumber, orderValue, sortOrder);
-            }
+            result = _employeeService.GetEmployee(pageNumber, orderValue, sortOrder);
 
             return Json(new DataHttpResponse<DataGridResult<Employee>>(result));
         }
@@ -61,13 +64,16 @@ namespace VISMA.TestTask.Web.Controllers
             if (!ValidateRequest(out var errorMessages))
                 return Json(new DefaultHttpResponse(HttpStatusCode.Forbidden, string.Join("\n", errorMessages)));
 
-            using (var service = NinjectCore.Get<IEmployeeService>())
-            {
-                if (!service.AddEmployee(request.ToEntity(), out var responseMessage))
-                    return Json(new DefaultHttpResponse(HttpStatusCode.Forbidden, responseMessage));
-            }
+            if (!_employeeService.AddEmployee(request.ToEntity(), out var responseMessage))
+                return Json(new DefaultHttpResponse(HttpStatusCode.Forbidden, responseMessage));
 
             return Json(new DefaultHttpResponse());
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            _employeeService.Dispose();
+            base.OnActionExecuted(filterContext);
         }
     }
 }

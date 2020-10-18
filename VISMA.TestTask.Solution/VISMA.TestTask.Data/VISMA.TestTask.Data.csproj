@@ -121,6 +121,7 @@
     <Compile Include="EmployeeDbContext.cs" />
     <Compile Include="FakeDataCollection.cs" />
     <Compile Include="IEmployeeDbContext.cs" />
+    <Compile Include="IFakeDataCollection.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

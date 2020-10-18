@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using VISMA.TestTask.Core.Logger;
-using VISMA.TestTask.Web.Ninject;
 
 namespace VISMA.TestTask.Web.Controllers
 {
@@ -10,9 +9,9 @@ namespace VISMA.TestTask.Web.Controllers
     {
         private readonly ILogger _logger;
 
-        public BaseController()
+        public BaseController(ILogger logger)
         {
-            _logger = NinjectCore.Get<ILogger>();
+            _logger = logger;
         }
 
         protected override void OnException(ExceptionContext filterContext)
@@ -28,18 +27,18 @@ namespace VISMA.TestTask.Web.Controllers
             };
         }
 
-        protected bool ValidateRequest(out List<string> errorMessages)
+        protected bool ValidateRequest(out List<string> erroMessages)
         {
-            errorMessages = null;
+            erroMessages = null;
 
             if (ModelState.IsValid)
                 return true;
 
-            errorMessages = new List<string>();
+            erroMessages = new List<string>();
 
             foreach (var key in ModelState.Keys)
             {
-                errorMessages.AddRange(ModelState[key].Errors
+                erroMessages.AddRange(ModelState[key].Errors
                     .Select(o => o.ErrorMessage)
                     .ToList());
             }

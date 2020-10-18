@@ -1,4 +1,4 @@
-﻿using Ninject.Modules;
+﻿using Ninject;
 using VISMA.TestTask.Core.Helpers;
 using VISMA.TestTask.Core.Logger;
 using VISMA.TestTask.Core.Services;
@@ -6,14 +6,21 @@ using VISMA.TestTask.Data;
 
 namespace VISMA.TestTask.Web.Ninject
 {
-    public class NinjectBindings : NinjectModule
+    public class NinjectBindings
     {
-        public override void Load()
+        public void Configure(IKernel container)
         {
-            Bind<ILogger>().ToConstant(LoggingService.GetLogger());
-            Bind<IEmployeeDbContext>().To<DbContextService>();
-            Bind<IConfigManager>().To<ConfigManager>();
-            Bind<IEmployeeService>().To<EmployeeService>();
+            AddBindings(container);
+        }
+
+        private void AddBindings(IKernel container)
+        {
+
+            container.Bind<ILogger>().ToConstant(LoggingService.GetLogger());
+            container.Bind<IFakeDataCollection>().To<FakeDataCollection>();
+            container.Bind<IEmployeeDbContext>().To<DbContextService>();
+            container.Bind<IConfigManager>().To<ConfigManager>();
+            container.Bind<IEmployeeService>().To<EmployeeService>();
         }
     }
 }

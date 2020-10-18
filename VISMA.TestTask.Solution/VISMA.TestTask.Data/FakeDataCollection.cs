@@ -4,35 +4,47 @@ using VISMA.TestTask.Data.Models;
 
 namespace VISMA.TestTask.Data
 {
-    public class FakeDataCollection
+    public class FakeDataCollection : IFakeDataCollection
     {
-        public static void Load(IEmployeeDbContext dbContext)
+        private IEmployeeDbContext _dbContext;
+
+        public FakeDataCollection(IEmployeeDbContext employeeDbContext)
         {
-            dbContext.Employee.AddRange(GetEmployeeData());
-            dbContext.SaveChanges();
-            dbContext.Dispose();
+            _dbContext = employeeDbContext;
         }
 
-        private static IEnumerable<Employee> GetEmployeeData()
+        public void Load()
+        {
+            _dbContext.Employee.AddRange(GetEmployeeData());
+            _dbContext.SaveChanges();
+            _dbContext.Dispose();
+        }
+
+        private IEnumerable<Employee> GetEmployeeData()
         {
             return new List<Employee>
             {
                 new Employee
                 {
                     FirstName = "Bob",
-                    LastName =  "Marley",
+                    LastName =  "Kenobi",
                     SocialSecurityNumber = "AS00012349",
                     CreatedOn = new DateTime(2019, 12, 4, 13, 4, 12),
                 },
                 new Employee
                 {
-                    FirstName = "Anakin",
+                    FirstName = "Luke",
                     LastName =  "Skywalker",
                     SocialSecurityNumber = "AS00012022",
                     PhoneNumber = "+(111)123456789",
                     CreatedOn = new DateTime(2018, 8, 21, 9, 54, 19),
                 }
             };
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
         }
     }
 }

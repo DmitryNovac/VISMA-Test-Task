@@ -148,7 +148,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Ninject\NinjectBindings.cs" />
-    <Compile Include="Ninject\NinjectCore.cs" />
+    <Compile Include="Ninject\NinjectControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
